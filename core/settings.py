@@ -132,11 +132,19 @@ CORS_PREFLIGHT_MAX_AGE = 86400  # 24 hours
 
 # Security settings
 if not DEBUG:
-    SECURE_SSL_REDIRECT = True
+    # Only enable SSL redirect if we're sure we're behind a proxy
+    SECURE_SSL_REDIRECT = False  # Changed from True to False
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_HSTS_SECONDS = 31536000  # 1 year
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True 
+    SECURE_HSTS_PRELOAD = True
+    
+    # Add these settings
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    USE_X_FORWARDED_HOST = True
+    USE_X_FORWARDED_PORT = True
+
+# ... existing code ... 
